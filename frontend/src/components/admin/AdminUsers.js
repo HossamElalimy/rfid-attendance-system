@@ -182,6 +182,7 @@ const AdminUsers = () => {
                         </span>
                       </td>
                       <td>
+                        
                         <button className="btn btn-sm btn-primary me-2" onClick={(e) => { e.stopPropagation(); openEdit(user); }}>
                           <i className="fas fa-edit"></i>
                         </button>
@@ -265,6 +266,7 @@ const AdminUsers = () => {
                   <h5 className="modal-title text-primary">Edit User</h5>
                 </div>
                 <div className="modal-body">
+                    
                   <input className="form-control mb-2" name="username" value={editForm.username} onChange={handleEditChange} />
                   <select className="form-select mb-2" name="role" value={editForm.role} onChange={handleEditChange}>
                     <option value="student">Student</option>
@@ -272,10 +274,13 @@ const AdminUsers = () => {
                     <option value="parent">Parent</option>
                     <option value="admin">Admin</option>
                   </select>
+                  <input className="form-control mb-2" name="phoneNumber" value={editForm.phoneNumber} onChange={handleEditChange} placeholder="Phone number" />
+
                   {editForm.role === "student" && (
                     <>
                       <input className="form-control mb-2" name="faculty" value={editForm.faculty || ""} onChange={handleEditChange} placeholder="Faculty" />
                       <input className="form-control mb-2" name="year" value={editForm.year || ""} onChange={handleEditChange} placeholder="Year of Study" />
+                      
                     </>
                   )}
                   <select className="form-select mb-2" name="status" value={editForm.status} onChange={handleEditChange}>
