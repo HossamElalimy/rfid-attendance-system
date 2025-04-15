@@ -75,4 +75,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 git add .
 git commit -m "update"
 git push
+
+
+## Login Informations : 
+
+`Admin` 
+email : admin@example.com
+password : A12345
+
  

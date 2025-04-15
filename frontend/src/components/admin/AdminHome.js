@@ -65,7 +65,7 @@ const AdminHome = () => {
             </a>
             <hr className="sidebar-divider my-0" />
             <ul className="navbar-nav text-light" id="accordionSidebar">
-              <li className="nav-item"><a className="nav-link active" href="/"><i className="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+              <li className="nav-item"><a className="nav-link active" href="/admin/home"><i className="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
               <li className="nav-item"><a className="nav-link" href="/admin/users"><i className="fas fa-users"></i><span>Users</span></a></li>
             </ul>
             <div className="text-center mt-auto mb-3">
