@@ -39,8 +39,13 @@ const Topbar = () => {
             </div>
             <div className="dropdown-menu dropdown-menu-end shadow p-2">
               <h6 className="dropdown-header text-primary">Alerts</h6>
-              <a className="dropdown-item small">📢 New monthly report</a>
-              <a className="dropdown-item small">💰 Deposit confirmed</a>
+              <a className="dropdown-item small" href="#">
+  <span role="img" aria-label="announcement">📢</span> New monthly report
+</a>
+<a className="dropdown-item small" href="#">
+  <span role="img" aria-label="money">💰</span> Deposit confirmed
+</a>
+
             </div>
           </div>
 
@@ -58,9 +63,9 @@ const Topbar = () => {
             </div>
             <div className="dropdown-menu dropdown-menu-end shadow p-2">
               <h6 className="dropdown-header text-primary">Messages</h6>
-              <a className="dropdown-item small">
-                <strong>Emily</strong>: Hi! Just checking...
-              </a>
+              <a className="dropdown-item small" href="#">
+  <strong>Emily</strong>: Hi! Just checking...
+</a>
               <a className="dropdown-item small">
                 <strong>Ali</strong>: Got it, thanks!
               </a>
@@ -85,12 +90,12 @@ const Topbar = () => {
               />
             </div>
             <div className="dropdown-menu dropdown-menu-end shadow">
-              <a className="dropdown-item">
-                <i className="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i> Profile
-              </a>
-              <a className="dropdown-item">
-                <i className="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i> Settings
-              </a>
+            <a className="dropdown-item" href="#">
+  <i className="fas fa-user fa-sm fa-fw me-2 text-gray-400"></i> Profile
+</a>
+<a className="dropdown-item" href="#">
+  <i className="fas fa-cogs fa-sm fa-fw me-2 text-gray-400"></i> Settings
+</a>
               <div className="dropdown-divider" />
               <button className="dropdown-item text-danger" onClick={logout}>
                 <i className="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i> Logout

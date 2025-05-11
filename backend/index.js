@@ -5,7 +5,7 @@ require("dotenv").config();
 const authRoutes = require("./routes/auth");
 const attendanceRoutes = require("./routes/attendance");
 const userRoutes = require("./routes/users");
-
+const walletRoutes = require('./routes/wallet');
 
 const app = express();
 
@@ -21,6 +21,9 @@ app.use("/api/users", userRoutes);
 
 // 🔗 Mount Attendance Routes
 app.use("/api/attendance", attendanceRoutes);
+
+// 🔗 Mount Wallet Routes
+app.use('/api/wallet', walletRoutes); 
 
 
 app.get("/", (req, res) => {

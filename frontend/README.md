@@ -83,4 +83,7 @@ git push
 email : admin@example.com
 password : A12345
 
+`Admin 2` 
+email : admin1@example.com
+password : A12345
  

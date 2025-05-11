@@ -3,15 +3,28 @@ const bcrypt = require("bcryptjs");
 
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
+  fullName: { type: String, required: true },  // Add fullname field
   email:    { type: String, required: true, unique: true },
   password: { type: String, required: true },
   phoneNumber: { type: String, required: true }, // Add this field
+ // Merchant fields
+ merchantName: { type: String },  // Merchant name
+ merchantType: { type: String },  // Merchant type
+ 
+ faculty: { type: String, required: function() { return this.role === 'student'; } }, // Only for student role
+  year: { type: String, required: function() { return this.role === 'student'; } }, // Only for student role
 
-   // Merchant fields
-   merchantID: { type: String, unique: true, sparse: true }, // Only applies to merchants
-   merchantName: { type: String }, // Only applies to merchants
-   merchantType: { type: String }, // Only applies to merchants
-  
+
+    // Link to student if user is a parent
+    studentID: { 
+      type: String,
+     
+      required: function() { return this.role === 'parent'; }  // Only required if the role is 'parent'
+    },
+
+    walletID: { type: mongoose.Schema.Types.ObjectId, ref: 'Wallet', required: false },  // This will store the user's wallet
+
+    
   role: {
     type: String,
     enum: ['student', 'parent', 'admin', 'teacher', 'merchant'],
