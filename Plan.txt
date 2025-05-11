@@ -1,0 +1,15 @@
+1- Check on creation and edit for unique username,email address, as well i want to encrypt/hash the passwords at the database, and want to add Confirm password input field on creation and edit. (Done)
+2- add merchant userschema role , on creation and edit and , that on creation if user type is merchant then the id will be M01,M02,..etc and will contain MerchantID,username,MerchantName,MerchantType,Phonenumber,email,password,role,status,joined,createdat,updatedat. (Done)
+
+3- I want at user schema if usertype is parent then there will be an extra field at the DB named StudentID (userID of the student its child and its like search when writing id it finds the student and show his name and ID as ID FullName like : S01 Hossam Mohamed, and admin selects the student to link it to the parent) also, I want on user creation . if the usertype is Parent then theres an extra input field shows that admin must enter the StudentID(Child of this parent and its also works like search) that links it to the student. (Done and waited for Can be adding multiple students to same father, and can be edited)
+ 
+
+4- Images avatar from db (upload on creation , can be changed and re-upload on edit) (Later will do)
+
+5- Add Button Beside the Edit button , that opens a glassy pop-up  says No wallet found and theres a button named Create a Wallet that creates a wallet , and if its already theres an wallet then displays wallet info and theres 2 options : Add balance , Deduct Balance , and i want it at the db named wallet that contains walletID ,userID ( linked to the wallet) and Balance.
+
+6- I want a Transactions table at DB that saves theHistory : TransactionID,WalletID,MerchantID,MerchantName,Amount,ItemsPurchased. 
+
+
+7- Create Courses Table that contains CourseID(that will be entered manually by the admin on creation) , Coursename, day1,time1,day2,time2,dayX,timeX..etc(admin can either 1 lecture per week , or add multiple timing of lectures per week),Type(Lecture, lab, or tutorial),assigned teacher(can be one, two, three, or four teachers) , also i want to enroll students to this course by their StudetID(userID).
+
