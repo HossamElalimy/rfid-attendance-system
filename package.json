@@ -1,8 +1,11 @@
 {
+  "name": "rfid-attendance-system",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "dependencies": {
-    "jspdf": "^3.0.1",
-    "jspdf-autotable": "^5.0.2",
-    "react-datepicker": "^4.8.0",
-    "react-scripts": "^5.0.1"
+    "rfid-attendance-system": "file:"
   }
 }

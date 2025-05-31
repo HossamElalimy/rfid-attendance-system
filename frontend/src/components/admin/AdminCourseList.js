@@ -7,8 +7,8 @@ const AdminCourseList = () => {
     const [teacherModal, setTeacherModal] = useState({ visible: false, course: null });
 
     const [studentModal, setStudentModal] = useState({ visible: false, course: null });
-    const [studentSearch, setStudentSearch] = useState("");
-    const [studentSuggestions, setStudentSuggestions] = useState([]);
+   
+   
     const [editModal, setEditModal] = useState({ visible: false, course: null });
 
 

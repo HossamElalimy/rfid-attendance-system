@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./AdminCourseList.css"; // Reuse your styling if it's glassy
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { useContext } from "react";
+import SocketContext from "../../contexts/SocketContext";
+
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -10,6 +13,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 const AdminTransactions = () => {
+  const socket = useContext(SocketContext);
+
   const [transactions, setTransactions] = useState([]);
   const [timeFilter, setTimeFilter] = useState("");
 const [userIdInput, setUserIdInput] = useState("");
@@ -136,6 +141,27 @@ const handleExportCSV = () => {
   }, [timeFilter, customDate, userIdInput]);
   
   
+  useEffect(() => {
+    const handleNewTransaction = (newTx) => {
+      setTransactions((prev) => [newTx, ...prev]);
+      setTotalAmount((prev) => prev + newTx.amount || 0);
+  
+      if (newTx.action === "add") {
+        setTotalAdded((prev) => prev + newTx.amount);
+      } else if (newTx.action === "deduct") {
+        setTotalDeducted((prev) => prev + newTx.amount);
+      } else if (newTx.action === "purchase") {
+        setTotalPurchased((prev) => prev + newTx.amount);
+      }
+  
+      // Optionally update wallet total again:
+      fetchTotalWalletBalance();
+    };
+  
+    socket.on("new-transaction", handleNewTransaction);
+  
+    return () => socket.off("new-transaction", handleNewTransaction);
+  }, []);
   
 
   return (
@@ -157,56 +183,56 @@ const handleExportCSV = () => {
 
   <div className="position-relative" style={{ maxWidth: "300px" }}>
   <DatePicker
-  selected={customDate ? new Date(customDate) : null}
-  onChange={(date) => {
-    const formatted = date.toISOString().split("T")[0];
-    setCustomDate(formatted);
-    fetchTransactions(); // ✅ triggers filtering when date changes
-  }}
-  className="form-control"
-  placeholderText="Select date"
-  dateFormat="yyyy-MM-dd"
-/>
+    selected={customDate ? new Date(customDate) : null}
+    onChange={(date) => {
+      const formatted = date.toISOString().split("T")[0];
+      setCustomDate(formatted);
+      fetchTransactions();
+    }}
+    className="form-control"
+    placeholderText="Select date"
+    dateFormat="yyyy-MM-dd"
+  />
+</div>
 
+<div className="position-relative" style={{ maxWidth: "300px" }}>
+  <input
+    type="text"
+    className="form-control"
+    placeholder="Search by User ID"
+    value={userIdInput}
+    onChange={async (e) => {
+      const val = e.target.value;
+      setUserIdInput(val);
 
+      if (val.length < 2) {
+        setUserSuggestions([]);
+        return;
+      }
 
-    <input
-      type="text"
-      className="form-control"
-      placeholder="Search by User ID"
-      value={userIdInput}
-      onChange={async (e) => {
-        const val = e.target.value;
-        setUserIdInput(val);
+      const res = await fetch(`http://localhost:5000/api/users/search?query=${val}`);
+      const data = await res.json();
+      setUserSuggestions(data);
+    }}
+  />
+  {userSuggestions.length > 0 && (
+    <ul className="list-group position-absolute z-3 w-100" style={{ top: "100%" }}>
+      {userSuggestions.map((s, i) => (
+        <li
+          key={i}
+          className="list-group-item list-group-item-action"
+          onClick={() => {
+            setUserIdInput(s.userId);
+            setUserSuggestions([]);
+          }}
+        >
+          {s.fullName} ({s.userId})
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
 
-        if (val.length < 2) {
-          setUserSuggestions([]);
-          return;
-        }
-
-        const res = await fetch(`http://localhost:5000/api/users/search?query=${val}`);
-
-        const data = await res.json();
-        setUserSuggestions(data);
-      }}
-    />
-    {userSuggestions.length > 0 && (
-      <ul className="list-group position-absolute z-3 w-100" style={{ top: "100%" }}>
-        {userSuggestions.map((s, i) => (
-          <li
-            key={i}
-            className="list-group-item list-group-item-action"
-            onClick={() => {
-              setUserIdInput(s.userId);
-              setUserSuggestions([]);
-            }}
-          >
-            {s.fullName} ({s.userId})
-          </li>
-        ))}
-      </ul>
-    )}
-  </div>
   <button
   className="btn btn-outline-danger"
   onClick={() => {

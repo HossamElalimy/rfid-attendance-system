@@ -80,5 +80,60 @@ router.get("/faculties", async (req, res) => {
   }
 });
 
+router.get("/by-course", async (req, res) => {
+  const { courseId, status } = req.query;
+
+  if (!courseId || !status) {
+    return res.status(400).json({ error: "Missing courseId or status" });
+  }
+
+  // Get the course to retrieve its courseCode
+  const course = await Course.findById(courseId);
+  if (!course) return res.status(404).json({ error: "Course not found" });
+
+  const courseCode = course.courseCode;
+
+  if (status === "ended") {
+    const lectures = await Lecture.find({ courseCode, status: "ended" }).sort({ startDateTime: -1 });
+
+    const formatted = lectures.map(l => ({
+      _id: l._id,
+      title: `${l.courseName} (${l.type}) - ${l.day} ${l.startTime}–${l.endTime}`
+    }));
+
+    return res.json(formatted);
+  }
+
+  if (status === "ongoing") {
+    const today = new Date();
+    const todayDay = today.toLocaleDateString("en-US", { weekday: "long" });
+
+    const matched = course.timings
+      .filter(t => t.day === todayDay)
+      .map(t => {
+        const [startH, startM] = t.timeStart.split(":").map(Number);
+        const [endH, endM] = t.timeEnd.split(":").map(Number);
+        const now = new Date();
+
+        const start = new Date(now);
+        start.setHours(startH, startM, 0, 0);
+        const end = new Date(now);
+        end.setHours(endH, endM, 0, 0);
+
+        const isNow = now >= start && now <= end;
+        if (!isNow) return null;
+
+        return {
+          _id: `${course._id}-${t.type}-${t.day}-${t.timeStart}`,
+          title: `${course.courseName} (${t.type}) - ${t.day} ${t.timeStart}–${t.timeEnd}`
+        };
+      })
+      .filter(Boolean);
+
+    return res.json(matched);
+  }
+
+  return res.status(400).json({ error: "Invalid status" });
+});
 
 module.exports = router;

@@ -206,7 +206,32 @@ const handleTeacherSearchChange = (value) => {
     });
     doc.save("lectures.pdf");
   };
-
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      setLectures((prevLectures) =>
+        prevLectures.map((lec) => {
+          const start = new Date(lec.startDateTime);
+          const end = new Date(lec.endDateTime);
+  
+          let status = "Upcoming";
+          if (now >= start && now <= end) {
+            status = "Ongoing";
+          } else if (now > end) {
+            status = "Ended";
+          }
+  
+          return {
+            ...lec,
+            _dynamicStatus: status  // 👈 Add a temporary override field
+          };
+        })
+      );
+    }, 30000); // update every 30 seconds
+  
+    return () => clearInterval(interval);
+  }, []);
+  
   return (
 
     

@@ -1,6 +1,16 @@
-Plan.txt
-auto-push.bat
-backend/.env
-frontend/node_modules/
+# Ignore everything by default
+/*
+
+# But don't ignore these two folders
+!/backend/
+!/frontend/
+
+# Still ignore node_modules inside frontend/backend
 backend/node_modules/
-**/node_modules/
+frontend/node_modules/
+
+# Optional: ignore logs, .env files, system files
+*.log
+*.env
+.DS_Store
+Thumbs.db

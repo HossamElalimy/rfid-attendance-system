@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Transaction = require("../models/Transaction");
 const Wallet = require("../models/Wallet"); // make sure Wallet model exists
+const { io } = require("../socket");
 
 router.get("/", async (req, res) => {
   try {
@@ -114,10 +115,12 @@ router.post("/", async (req, res) => {
       });
   
       await transaction.save();
+      io.emit("new-transaction", transaction); 
       res.status(201).json(transaction);
     } catch (err) {
       res.status(400).json({ error: "Failed to save transaction", details: err.message });
     }
+  
   });
   router.get("/total-wallet-balance", async (req, res) => {
     try {
