@@ -4,10 +4,18 @@
 # But don't ignore these two folders
 !/backend/
 !/frontend/
+!/landing/
+!/scripts/
+!/package.json
+!/package-lock.json
+!/frontend/package.json
+!/backend/package.json
+!/backend/package-lock.json
 
 # Still ignore node_modules inside frontend/backend
 backend/node_modules/
 frontend/node_modules/
+/node_modules/
 
 # Optional: ignore logs, .env files, system files
 *.log
