@@ -131,6 +131,9 @@ router.post("/", async (req, res) => {
     
 
     await newUser.save();
+
+    const io = req.app.get("io");
+io.emit("userCreated", newUser);
     res.status(201).json(newUser); // Success response
   } catch (err) {
     console.error("Error creating user:", err);
@@ -165,6 +168,12 @@ router.put("/:id", async (req, res) => {
       merchantType,
       studentIDs: role === "parent" ? studentIDs : undefined
     };
+       // Remove empty or undefined fields
+       Object.keys(updatedData).forEach(key => {
+        if (updatedData[key] === undefined || updatedData[key] === "") {
+          delete updatedData[key];
+        }
+      });
 
     if (password) {
       const salt = await bcrypt.genSalt(10);
@@ -172,9 +181,12 @@ router.put("/:id", async (req, res) => {
     }
 
     const updated = await User.findByIdAndUpdate(req.params.id, updatedData, { new: true });
+    const io = req.app.get("io");
+io.emit("userUpdated", updated);
     res.status(200).json(updated);
   } catch (err) {
-    res.status(400).json({ error: "Failed to update user" });
+    console.error("User update error:", err);
+    res.status(400).json({ error: err.message || "Failed to update user" });
   }
 });
 
@@ -231,6 +243,8 @@ router.get("/search", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
+    const io = req.app.get("io");
+io.emit("userDeleted", req.params.id);
     res.json({ message: "User deleted" });
   } catch (err) {
     res.status(400).json({ error: "Delete failed" });

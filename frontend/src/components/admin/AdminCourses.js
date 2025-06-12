@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // 👈 Import here
+import { useContext } from "react";
+import SocketContext from "../../contexts/SocketContext";
+
+
 
 
 
 const AdminCourses = () => {
+  const socket = useContext(SocketContext);
   const navigate = useNavigate();
   const [courseForm, setCourseForm] = useState({
     courseCode: "",
@@ -133,7 +138,9 @@ const AdminCourses = () => {
           throw new Error(errorData.error || "Failed to create course");
         }
       }
-  
+      const createdCourse = await res.json(); // get new course from backend
+      socket.emit("courseCreated", createdCourse); // manually emit if needed
+      
       // Success popup
       setPopupVisible(true);
   

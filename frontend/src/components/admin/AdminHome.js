@@ -88,15 +88,51 @@ const handleCardClick = () => {
 
 
 useEffect(() => {
-  socket.on("lecture-updated", () => {
-    console.log("🔄 Lecture updated - refreshing dashboard");
-    fetchSummary(); // ✅ refresh the summary
-  });
+  const handleLectureUpdate = async (payload) => {
+    console.log("📡 Real-time lecture update:", payload);
+    fetchSummary(); // Refresh base summary
+
+    if (attendanceMode === "custom" && selectedLecture) {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/dashboard/summary/lecture-attendance?lectureId=${selectedLecture}`
+        );
+        const { attendancePercent } = res.data;
+        setSummary(prev => ({ ...prev, attendancePercent }));
+      } catch (err) {
+        console.error("⚠️ Failed to refresh custom lecture attendance", err);
+      }
+    }
+  };
+
+  socket.on("lecture-updated", handleLectureUpdate);
 
   return () => {
-    socket.off("lecture-updated");
+    socket.off("lecture-updated", handleLectureUpdate);
+  };
+}, [attendanceMode, selectedLecture]);
+
+
+useEffect(() => {
+  const handleWalletUpdate = (data) => {
+    console.log("🔄 Wallet updated:", data);
+    fetchSummary(); // ✅ Refresh dashboard stats
+    if (user && data.userID === user._id) {
+      // Optionally refresh personal wallet too
+      setMyWallet((prev) => ({
+        ...prev,
+        balance: data.balance,
+      }));
+    }
+  };
+
+  socket.on("walletUpdated", handleWalletUpdate);
+
+  return () => {
+    socket.off("walletUpdated", handleWalletUpdate);
   };
 }, []);
+
 
 useEffect(() => {
   const handleConnect = () => {

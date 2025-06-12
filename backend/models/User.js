@@ -47,6 +47,12 @@ year: {
         return ['student', 'dean', 'vice_dean', 'secretary'].includes(this.role);
       }
     },
+    studentData: {
+      enrolledCourses: {
+        type: [String],
+        default: []
+      }
+    },
     
 
   status: {

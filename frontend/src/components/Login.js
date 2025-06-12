@@ -25,14 +25,20 @@ const Login = () => {
       const finalUser = {
         ...user,
         userId: user.userId || user._id, // 🧠 fallback to _id if userId is missing
+        
       };
-  
+      console.log("✅ Full login response:", res.data);
+      console.log("✅ Saving user:", finalUser);
+      
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(finalUser));
   
       if (finalUser.role === "admin") {
         navigate("/admin/home");
-      } else {
+      }
+      else if (finalUser.role === "student") {
+        navigate("/student/home"); // <-- Add this for students
+       } else {
         navigate("/dashboard");
       }
     } catch (err) {

@@ -72,7 +72,18 @@ router.put("/:walletId", async (req, res) => {
     
     const transaction = new Transaction(txData);
     await transaction.save();
-    
+    const io = req.app.get("io");  // <-- Get io instance from app
+
+// Emit real-time update
+io.emit("walletUpdated", {
+  walletID: wallet.walletID,
+  userID: wallet.userID,
+  balance: wallet.balance,
+  amount: numericAmount,
+  action,
+  timestamp: txData.timestamp,
+});
+
     
 
 
@@ -87,6 +98,8 @@ router.put("/:walletId", async (req, res) => {
 // 🔹 Get wallet by userID (_id)
 router.get("/:userId", async (req, res) => {
   try {
+
+    
     const wallet = await Wallet.findOne({ userID: req.params.userId });
     if (!wallet) return res.status(404).json({ error: "Wallet not found" });
 

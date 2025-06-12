@@ -139,12 +139,19 @@ const handleExportCSV = () => {
     fetchTransactions();
     fetchTotalWalletBalance();
   }, [timeFilter, customDate, userIdInput]);
+
   
   
   useEffect(() => {
+    if (!socket) return;
+  
     const handleNewTransaction = (newTx) => {
       setTransactions((prev) => [newTx, ...prev]);
-      setTotalAmount((prev) => prev + newTx.amount || 0);
+      setTotalAmount((prev) => {
+        const newTotal = (parseFloat(prev) + parseFloat(newTx.amount)) || 0;
+        return Math.round(newTotal * 100) / 100;
+      });
+      
   
       if (newTx.action === "add") {
         setTotalAdded((prev) => prev + newTx.amount);
@@ -154,14 +161,16 @@ const handleExportCSV = () => {
         setTotalPurchased((prev) => prev + newTx.amount);
       }
   
-      // Optionally update wallet total again:
-      fetchTotalWalletBalance();
+      fetchTotalWalletBalance(); // update total wallets
     };
   
     socket.on("new-transaction", handleNewTransaction);
   
-    return () => socket.off("new-transaction", handleNewTransaction);
-  }, []);
+    return () => {
+      socket.off("new-transaction", handleNewTransaction);
+    };
+  }, [socket]);
+  
   
 
   return (

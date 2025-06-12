@@ -1,10 +1,13 @@
   import React, { useEffect, useState } from "react";
   import axios from "axios";
-  import { FaCreditCard } from 'react-icons/fa';
+  import { useContext } from "react";
+  import SocketContext from "../../contexts/SocketContext"; // adjust path if needed
+  
 
 
 
   const AdminUsers = () => {
+    
     const [users, setUsers] = useState([]);
     const [showDelete, setShowDelete] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
@@ -24,6 +27,8 @@
 const [filterRole, setFilterRole] = useState("");
 const [filterStatus, setFilterStatus] = useState("");
 const [userSuggestions, setUserSuggestions] = useState([]);
+const socket = useContext(SocketContext);
+
 
 
 
@@ -404,6 +409,16 @@ const [userSuggestions, setUserSuggestions] = useState([]);
     const handleEditSubmit = async (e) => {
       e.preventDefault();
       const updatedData = { ...editForm };
+
+      // Remove password if empty (don't send to backend)
+  if (!updatedData.password) {
+    delete updatedData.password;
+  }
+
+    // Send studentIDs only if role is parent
+    if (updatedData.role !== "parent") {
+      delete updatedData.studentIDs;
+    }
       // Validate fullName
       if (!editForm.fullName) {
         setMessage("Full Name is required.");
@@ -457,7 +472,7 @@ const [userSuggestions, setUserSuggestions] = useState([]);
         fetchUsers();
       } catch (err) {
         setMessage(
-          "Error updating user: " + err.response?.data?.error || err.message
+          "Error updating user: " + (err.response?.data?.error || err.message)
         );
       }
     };
@@ -493,7 +508,35 @@ const [userSuggestions, setUserSuggestions] = useState([]);
       setViewUser(user);
       setShowView(true);
     };
-
+    useEffect(() => {
+      if (!socket) return;
+    
+      const handleNewUser = (newUser) => {
+        setUsers((prev) => [newUser, ...prev]);
+      };
+    
+      const handleUserDeleted = (deletedId) => {
+        setUsers((prev) => prev.filter((u) => u._id !== deletedId));
+      };
+    
+      const handleUserUpdated = (updatedUser) => {
+        setUsers((prev) =>
+          prev.map((u) => (u._id === updatedUser._id ? updatedUser : u))
+        );
+      };
+    
+      socket.on("userCreated", handleNewUser);
+      socket.on("userDeleted", handleUserDeleted);
+      socket.on("userUpdated", handleUserUpdated);
+    
+      return () => {
+        socket.off("userCreated", handleNewUser);
+        socket.off("userDeleted", handleUserDeleted);
+        socket.off("userUpdated", handleUserUpdated);
+      };
+    }, [socket]);
+    
+    
     useEffect(() => {
       const user = JSON.parse(localStorage.getItem("user"));
       setCurrentUser(user);

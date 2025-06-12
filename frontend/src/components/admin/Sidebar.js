@@ -11,8 +11,9 @@ const Sidebar = () => {
 
   const logout = () => {
     localStorage.clear();
-    window.location.href = "/";
+    window.location.href = "http://localhost:5000/landing/index.html"; 
   };
+  
 
   return (
     <nav className="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0">
@@ -79,12 +80,12 @@ const Sidebar = () => {
 
         </ul>
         </div>  
-
         <div className="text-center mt-auto mb-3">
-          <button className="btn btn-danger btn-sm" onClick={logout}>
-            Logout
-          </button>
-        </div>
+  <button className="btn btn-danger btn-sm" onClick={logout}>
+    Logout
+  </button>
+</div>
+
       </div>
     </nav>
   );

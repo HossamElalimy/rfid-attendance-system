@@ -6,21 +6,49 @@ const User = require("../models/User");
 // Create a new course
 router.post("/", async (req, res) => {
   try {
-    const { courseCode, courseName,faculty, timings, teachers, students } = req.body;
+    const { courseCode, courseName, faculty, timings, teachers, students = [] } = req.body;
 
-    // Check if courseCode already exists
+    // Check if course code already exists
     const existing = await Course.findOne({ courseCode });
     if (existing) return res.status(400).json({ error: "Course code already exists." });
 
-    const course = new Course({ courseCode, courseName,faculty, timings, teachers, students });
+    // Validate students are from same faculty
+    const invalidStudents = [];
+    for (const studentId of students) {
+      const student = await User.findOne({ userId: studentId });
+      if (!student || student.faculty !== faculty) {
+        invalidStudents.push(studentId);
+      }
+    }
+
+    if (invalidStudents.length > 0) {
+      return res.status(400).json({
+        error: `❌ Cannot add students from different faculty: ${invalidStudents.join(", ")}`
+      });
+    }
+
+    // Create course
+    const course = new Course({ courseCode, courseName, faculty, timings, teachers, students });
     await course.save();
+
+    // Update enrolledCourses for students
+    for (const studentId of students) {
+      await User.updateOne(
+        { userId: studentId },
+        { $addToSet: { "studentData.enrolledCourses": courseCode } }
+      );
+    }
+
+    const io = req.app.get("io");
+    io.emit("courseCreated", course);
+
     res.status(201).json(course);
   } catch (err) {
     console.error("❌ Course creation error:", err);
     res.status(500).json({ error: "Error creating course", details: err.message });
   }
-  
 });
+
 
 // Get all courses
 // Get all courses with teacher details
@@ -53,6 +81,8 @@ router.get("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try {
     const updated = await Course.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const io = req.app.get("io");
+    io.emit("courseUpdated", updated);
     if (!updated) return res.status(404).json({ error: "Course not found" });
     res.json(updated);
   } catch (err) {
@@ -64,6 +94,8 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const deleted = await Course.findByIdAndDelete(req.params.id);
+    const io = req.app.get("io");
+    io.emit("courseDeleted", req.params.id);
     if (!deleted) return res.status(404).json({ error: "Course not found" });
     res.json({ message: "Course deleted successfully" });
   } catch (err) {
@@ -104,11 +136,25 @@ router.post("/:id/students", async (req, res) => {
   const student = await User.findOne({ userId: req.body.studentId });
 
   if (!course || !student) return res.status(404).json({ error: "Not found" });
-
-  if (!course.students.includes(req.body.studentId)) {
-    course.students.push(req.body.studentId);
-    await course.save();
+  
+  if (student.faculty !== course.faculty) {
+    return res.status(400).json({
+      error: `Cannot enroll. Student ${student.userId} is from '${student.faculty}', but the course is for '${course.faculty}'.`
+    });
   }
+
+  const studentId = req.body.studentId;
+  if (!course.students.includes(studentId)) {
+    course.students.push(studentId);
+    await course.save();
+  
+    // Also update user record
+    await User.updateOne(
+      { userId: studentId },
+      { $addToSet: { "studentData.enrolledCourses": course.courseCode } }
+    );
+  }
+  
 
   res.json({ message: "Student enrolled" });
 });

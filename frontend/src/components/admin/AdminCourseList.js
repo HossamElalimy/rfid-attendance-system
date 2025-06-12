@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./AdminCourseList.css";
+import { useContext } from "react";
+import SocketContext from "../../contexts/SocketContext";
+
 
 
 const AdminCourseList = () => {
+  
     const [teacherModal, setTeacherModal] = useState({ visible: false, course: null });
 
     const [studentModal, setStudentModal] = useState({ visible: false, course: null });
@@ -18,6 +22,8 @@ const AdminCourseList = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState({ visible: false, course: null });
   const navigate = useNavigate();
+  const socket = useContext(SocketContext);
+
   const ConfirmDeletePopup = ({ course, onClose, onDelete }) => (
     <div style={{
       position: "fixed", top: "30%", left: "50%", transform: "translate(-50%, -50%)",
@@ -57,6 +63,34 @@ const AdminCourseList = () => {
       .then(setCourses)
       .catch(console.error);
   }, []);
+  useEffect(() => {
+    if (!socket) return;
+  
+    const handleCreated = (course) => {
+      setCourses((prev) => [course, ...prev]);
+    };
+  
+    const handleUpdated = (updated) => {
+      setCourses((prev) =>
+        prev.map((c) => (c._id === updated._id ? updated : c))
+      );
+    };
+  
+    const handleDeleted = (id) => {
+      setCourses((prev) => prev.filter((c) => c._id !== id));
+    };
+  
+    socket.on("courseCreated", handleCreated);
+    socket.on("courseUpdated", handleUpdated);
+    socket.on("courseDeleted", handleDeleted);
+  
+    return () => {
+      socket.off("courseCreated", handleCreated);
+      socket.off("courseUpdated", handleUpdated);
+      socket.off("courseDeleted", handleDeleted);
+    };
+  }, [socket]);
+  
   const saveTeachersToCourse = async (courseId, updatedTeachers) => {
     try {
       const res = await fetch(`http://localhost:5000/api/courses/${courseId}`, {

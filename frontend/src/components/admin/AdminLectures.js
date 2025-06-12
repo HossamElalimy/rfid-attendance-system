@@ -5,6 +5,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import "./AdminLectures.css";
+import { useContext } from "react";
+import SocketContext from "../../contexts/SocketContext";
+
 
 const AdminLectures = () => {
   const [lectures, setLectures] = useState([]);
@@ -34,12 +37,28 @@ const [teacherSearch, setTeacherSearch] = useState("");
 const [showModal, setShowModal] = useState(false);
 const [selectedLecture, setSelectedLecture] = useState(null);
 const [attendanceRecords, setAttendanceRecords] = useState([]);
+const socket = useContext(SocketContext);
+
 
 
 
 useEffect(() => {
   fetchLectures();
 }, [selectedDate, courseSearch, teacherSearch, facultyFilter,showModal]);
+useEffect(() => {
+  if (!socket) return;
+
+  const handleUpdate = (payload) => {
+    console.log("📡 Real-time update:", payload);
+    if (payload.type === "attendance-finalized") {
+      fetchLectures(); // refresh attendance count
+    }
+  };
+
+  socket.on("lecture-updated", handleUpdate);
+
+  return () => socket.off("lecture-updated", handleUpdate);
+}, [socket]);
 
 const getAttendanceColor = (attended, total) => {
   if (!total) return "secondary";
