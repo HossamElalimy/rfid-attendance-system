@@ -13,7 +13,7 @@ ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarEle
 
 const StudentCharts = () => {
   const [itemSpending, setItemSpending] = useState({});
-  const [itemFilter, setItemFilter] = useState("day");
+  const [itemFilter, setItemFilter] = useState("all");
   const [selectedItemDate, setSelectedItemDate] = useState(new Date());
   
 

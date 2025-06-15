@@ -11,6 +11,8 @@ const StudentHome = () => {
   const [timingToday, setTimingToday] = useState([]);
 const [ongoingLectures, setOngoingLectures] = useState(0);
 const [upcomingToday, setUpcomingToday] = useState(0);
+const [spendingMode, setSpendingMode] = useState("all");
+
 
   const socket = useContext(SocketContext);
   const user = JSON.parse(localStorage.getItem("user"));
@@ -19,8 +21,12 @@ const [upcomingToday, setUpcomingToday] = useState(0);
     try {
       if (!user || !user.userId) return;
       const res = await axios.get(`http://localhost:5000/api/student/summary/${user.userId}`);
+      console.log("📥 Summary received in frontend:", res.data); // ADD THIS
+ 
+
       setSummary(res.data);
       setTimingToday(res.data.timingToday || []);
+      console.log("✅ FULL RESPONSE:", res.data);
 
     } catch (err) {
       console.error("❌ Error fetching student summary:", err);
@@ -135,6 +141,14 @@ const [upcomingToday, setUpcomingToday] = useState(0);
   
   if (summary === "error") return <p className="text-danger text-center mt-5">Failed to load student data.</p>;
   if (!summary) return <p className="text-center text-muted mt-5">Loading...</p>;
+  const attended = summary.attendanceSummary?.attended || 0;
+  const absent = summary.attendanceSummary?.absent || 0;
+  const late = summary.attendanceSummary?.late || 0;
+  
+  const total = summary.totalLectures || 0;
+  const attendanceRate = total > 0 ? Math.round((attended / total) * 100) : 0;
+  
+
 
   return (
     <div className="container-fluid">
@@ -160,15 +174,48 @@ const [upcomingToday, setUpcomingToday] = useState(0);
         <StudentStatCard title="Transactions Today" value={summary.transactionsToday} iconClass="fas fa-credit-card" textColor="primary" />
         <StudentStatCard title="Purchases Today" value={summary.purchasesToday} iconClass="fas fa-shopping-basket" textColor="success" />
         <StudentStatCard title="Total Courses" value={summary.totalCourses} iconClass="fas fa-book-open" textColor="dark" />
-        <StudentStatCard title="Lectures Attended" value={summary.attendedLectures} iconClass="fas fa-check-circle" textColor="success" />
-        <StudentStatCard title="Lectures Absent" value={summary.absentLectures} iconClass="fas fa-times-circle" textColor="danger" />
+        <StudentStatCard title="Lectures Attended" value={attended} iconClass="fas fa-check-circle" textColor="success" />
+        <StudentStatCard title="Lectures Absent" value={absent} iconClass="fas fa-times-circle" textColor="danger" />
         <StudentStatCard title="Lectures Today (Ended)" value={summary.endedToday} iconClass="fas fa-calendar-check" textColor="secondary" />
         <StudentStatCard title="Lectures Today (Upcoming)" value={summary.upcomingToday} iconClass="fas fa-hourglass-start" textColor="warning" />
+        <StudentStatCard
+  title="Lectures Late"
+  value={late}
+  iconClass="fas fa-clock"
+  textColor="warning"
+/>
+<StudentStatCard
+  title="Lectures Missed / Total"
+  value={`${summary.missedLectures || 0} / ${summary.totalLectures || 0}`}
+  iconClass="fas fa-percentage"
+  textColor="secondary"
+/>
+
+<StudentStatCard
+  title="Attendance Rate"
+  value={`${attendanceRate}%`}
+  iconClass="fas fa-chart-line"
+  textColor="info"
+/>
+<StudentStatCard
+  title="Late Rate"
+  value={
+    total > 0
+      ? `${Math.round((late / total) * 100)}%`
+      : "0%"
+  }
+  iconClass="fas fa-hourglass-half"
+  textColor="warning"
+/>
+
+
+
         <StudentStatCard title="Ongoing Lectures" value={summary.ongoingLectures} iconClass="fas fa-spinner" textColor="info" />
         <StudentStatCard title="Total Added" value={`EGP ${summary.addedAmount}`} iconClass="fas fa-plus-circle" textColor="success"/>
         <StudentStatCard title="Total Deducted" value={`EGP ${summary.deductedAmount}`} iconClass="fas fa-minus-circle" textColor="danger"/>
       </div>
-     <StudentCharts />
+      <StudentCharts mode={spendingMode} />
+
 
     </div>
   );

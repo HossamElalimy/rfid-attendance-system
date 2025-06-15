@@ -62,6 +62,9 @@ app.use("/api/courses", require("./routes/courses"));
 app.use("/api/transactions", require("./routes/transaction"));
 app.use("/api/lectures", require("./routes/lecture"));
 app.use("/api/dashboard", require("./routes/dashboard"));
+const merchantRoutes = require("./routes/merchants");
+app.use("/api/merchants", merchantRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("RFID Server Running 🚀");

@@ -3,6 +3,7 @@ const router = express.Router();
 const Transaction = require("../models/Transaction");
 const Lecture = require("../models/Lecture");
 const User = require("../models/User");
+const Attendance = require("../models/Attendance");
 
 // 📊 Fetch student analytics data by userId
 router.get("/:userId", async (req, res) => {
@@ -10,7 +11,13 @@ router.get("/:userId", async (req, res) => {
     const { userId } = req.params;
 
     const transactions = await Transaction.find({ userId });
-    const lectures = await Lecture.find({ "attendance.userId": userId });
+    const attendanceRecords = await Attendance.find({
+      studentId: { $regex: new RegExp(`^${userId}$`, "i") }
+    });
+    
+    console.log("🔍 Querying Attendance for studentId:", userId);
+    
+
 
     // Payments grouped by action type
     const paymentSummary = {
@@ -22,20 +29,40 @@ router.get("/:userId", async (req, res) => {
       paymentSummary[tx.action] = (paymentSummary[tx.action] || 0) + tx.amount;
     }
 
-    // Attendance summary by status
-    const attendanceSummary = {
-      Attended: 0,
-      Absent: 0,
-      Late: 0
-    };
-    for (const lec of lectures) {
-      const record = lec.attendance.find(a => a.userId === userId);
-      if (record && attendanceSummary[record.status] !== undefined) {
-        attendanceSummary[record.status]++;
-      }
-    }
+    // Attendance summary from Attendance collection
+  // Attendance summary from Attendance collection
+  console.log("🔍 Querying Attendance for studentId:", userId);
+console.log("🧾 Found Attendance Records:", attendanceRecords.length);
+const attendanceSummary = {
+  attended: 0,
+  absent: 0,
+  late: 0
+};
 
-    res.json({ paymentSummary, attendanceSummary });
+for (const record of attendanceRecords) {
+  const status = record.status?.trim();
+  if (status === "Attended") attendanceSummary.attended++;
+  else if (status === "Absent") attendanceSummary.absent++;
+  else if (status === "Late") attendanceSummary.late++;
+  
+}
+
+const totalLectures = attendanceSummary.attended + attendanceSummary.absent + attendanceSummary.late;
+const missedLectures = attendanceSummary.absent + attendanceSummary.late;
+
+
+res.json({
+  paymentSummary,
+  attendanceSummary,
+  totalLectures,
+  missedLectures
+});
+
+
+
+
+
+
   } catch (err) {
     console.error("Error in student analytics:", err);
     res.status(500).json({ error: "Error generating analytics" });

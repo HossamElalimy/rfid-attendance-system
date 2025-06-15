@@ -19,6 +19,10 @@ import AdminLectures from "./components/admin/AdminLectures";
 import StudentLayout from "./components/student/StudentLayout";
 import StudentLectures from "./components/student/StudentLectures";
 import StudentHome from "./components/student/StudentHome";
+import StudentPayments from "./components/student/StudentPayment";
+import StudentWallet from "./components/student/StudentWallet";
+
+
 function App() {
   return (
     <Router>
@@ -44,6 +48,8 @@ function App() {
   <Route path="home" element={<StudentHome />} />
     {/* <Route path="dashboard" element={<StudentDashboard />} /> */}
     <Route path="lectures" element={<StudentLectures />} />
+    <Route path="wallet" element={<StudentWallet />} />
+    <Route path="payments" element={<StudentPayments />} />
 
   </Route>
       </Routes>
