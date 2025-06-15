@@ -11,6 +11,7 @@
 !/frontend/package.json
 !/backend/package.json
 !/backend/package-lock.json
+!/rfidCampus.attendances.json
 
 # Still ignore node_modules inside frontend/backend
 backend/node_modules/

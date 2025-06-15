@@ -1,0 +1,815 @@
+[{
+  "_id": {
+    "$oid": "68475d7a82574fa9709c55a7"
+  },
+  "studentId": "S02",
+  "courseCode": "Dent101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:17:30.202Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d7a82574fa9709c55aa"
+  },
+  "studentId": "S02",
+  "courseCode": "Dentaas101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:17:30.204Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d7a82574fa9709c55ad"
+  },
+  "studentId": "S02",
+  "courseCode": "Dents101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:17:30.205Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d7a82574fa9709c55b0"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST044",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:17:30.206Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d7a82574fa9709c55b3"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST090",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:17:30.208Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d7a82574fa9709c55b6"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST1",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:17:30.209Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d7a82574fa9709c55b9"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST144",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:17:30.210Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d7a82574fa9709c55bc"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST211",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:17:30.212Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d7a82574fa9709c55bf"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST44",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:17:30.213Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d7a82574fa9709c55c2"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST644",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:17:30.214Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d7a82574fa9709c55c5"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST84",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:17:30.215Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d7a82574fa9709c55c8"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST844",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:17:30.217Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d7a82574fa9709c55cb"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST9",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:17:30.218Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d7a82574fa9709c55ce"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST90",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:17:30.219Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d7a82574fa9709c55d1"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST91",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:17:30.220Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d7a82574fa9709c55d4"
+  },
+  "studentId": "S02",
+  "courseCode": "TESTL44",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:17:30.222Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d98b9067abdf022ed32"
+  },
+  "studentId": "S02",
+  "courseCode": "Dent101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:18:00.204Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d98b9067abdf022ed35"
+  },
+  "studentId": "S02",
+  "courseCode": "Dentaas101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:18:00.212Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d98b9067abdf022ed38"
+  },
+  "studentId": "S02",
+  "courseCode": "Dents101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:18:00.214Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d98b9067abdf022ed3b"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST044",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:18:00.216Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d98b9067abdf022ed3e"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST090",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:18:00.219Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d98b9067abdf022ed41"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST1",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:18:00.221Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d98b9067abdf022ed44"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST144",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:18:00.223Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d98b9067abdf022ed47"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST211",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:18:00.225Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d98b9067abdf022ed4a"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST44",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:18:00.226Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d98b9067abdf022ed4d"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST644",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:18:00.228Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d98b9067abdf022ed50"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST84",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:18:00.230Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d98b9067abdf022ed53"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST844",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:18:00.231Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d98b9067abdf022ed56"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST9",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:18:00.233Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d98b9067abdf022ed59"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST90",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:18:00.235Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d98b9067abdf022ed5c"
+  },
+  "studentId": "S02",
+  "courseCode": "TEST91",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:18:00.236Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475d98b9067abdf022ed5f"
+  },
+  "studentId": "S02",
+  "courseCode": "TESTL44",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-09",
+  "status": "Absent",
+  "timestamp": {
+    "$date": "2025-06-09T22:18:00.238Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475fb469d210c129fcdf58"
+  },
+  "studentId": "S02",
+  "courseCode": "Dentaasa101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Tuesday",
+  "date": "2025-06-09",
+  "status": "Late",
+  "loginTime": {
+    "$date": "2025-06-09T22:26:18.428Z"
+  },
+  "logoutTime": null,
+  "timestamp": {
+    "$date": "2025-06-09T22:27:00.030Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68475ff069d210c129fce036"
+  },
+  "studentId": "S02",
+  "courseCode": "Dentaasa101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Tuesday",
+  "date": "2025-06-09",
+  "status": "Late",
+  "loginTime": {
+    "$date": "2025-06-09T22:27:09.579Z"
+  },
+  "logoutTime": null,
+  "timestamp": {
+    "$date": "2025-06-09T22:28:00.034Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6847602c69d210c129fce14e"
+  },
+  "studentId": "S02",
+  "courseCode": "Dentaasa101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Tuesday",
+  "date": "2025-06-09",
+  "status": "Late",
+  "loginTime": {
+    "$date": "2025-06-09T22:28:06.459Z"
+  },
+  "logoutTime": null,
+  "timestamp": {
+    "$date": "2025-06-09T22:29:00.022Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684760e0fb7091f168af85dd"
+  },
+  "studentId": "S02",
+  "courseCode": "Dentaasa101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Tuesday",
+  "date": "2025-06-09",
+  "status": "Late",
+  "loginTime": {
+    "$date": "2025-06-09T22:31:09.175Z"
+  },
+  "logoutTime": null,
+  "timestamp": {
+    "$date": "2025-06-09T22:32:00.030Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6847620c925fb9f4d611d8f3"
+  },
+  "studentId": "S02",
+  "courseCode": "Dentaasa101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Tuesday",
+  "date": "2025-06-09",
+  "status": "Late",
+  "loginTime": {
+    "$date": "2025-06-09T22:36:50.370Z"
+  },
+  "logoutTime": null,
+  "timestamp": {
+    "$date": "2025-06-09T22:37:00.039Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684762c0925fb9f4d611dbe4"
+  },
+  "studentId": "S02",
+  "courseCode": "Dentaasa101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Tuesday",
+  "date": "2025-06-09",
+  "status": "Late",
+  "loginTime": {
+    "$date": "2025-06-09T22:39:30.386Z"
+  },
+  "logoutTime": null,
+  "timestamp": {
+    "$date": "2025-06-09T22:40:00.030Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684766444f25366adee01a32"
+  },
+  "studentId": "S02",
+  "courseCode": "Dentaasa101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Tuesday",
+  "date": "2025-06-10",
+  "status": "Late",
+  "loginTime": {
+    "$date": "2025-06-09T22:53:01.769Z"
+  },
+  "logoutTime": {
+    "$date": "2025-06-09T22:54:42.060Z"
+  },
+  "timestamp": {
+    "$date": "2025-06-09T22:55:00.040Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6848b5e4d9b46089d3603118"
+  },
+  "studentId": "S02",
+  "courseCode": "Dentafmaasa101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Wednesday",
+  "date": "2025-06-11",
+  "status": "Attended",
+  "loginTime": {
+    "$date": "2025-06-10T22:45:16.338Z"
+  },
+  "logoutTime": {
+    "$date": "2025-06-10T22:45:19.017Z"
+  },
+  "timestamp": {
+    "$date": "2025-06-10T22:47:00.037Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6848bd648e591453b73ababe"
+  },
+  "studentId": "S02",
+  "courseCode": "Dentafmfagasa101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Wednesday",
+  "date": "2025-06-11",
+  "status": "Attended",
+  "loginTime": {
+    "$date": "2025-06-10T23:18:37.511Z"
+  },
+  "logoutTime": {
+    "$date": "2025-06-10T23:18:38.909Z"
+  },
+  "timestamp": {
+    "$date": "2025-06-10T23:19:00.044Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6848c28c3671dccb8ac6336a"
+  },
+  "studentId": "S02",
+  "courseCode": "Dentafmfdagasa101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Wednesday",
+  "date": "2025-06-11",
+  "status": "Absent",
+  "loginTime": {
+    "$date": "2025-06-10T23:40:06.866Z"
+  },
+  "logoutTime": null,
+  "timestamp": {
+    "$date": "2025-06-10T23:41:00.037Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6848c28c3671dccb8ac63391"
+  },
+  "studentId": "S02",
+  "courseCode": "Dentafmffdagasa101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Wednesday",
+  "date": "2025-06-11",
+  "status": "Absent",
+  "loginTime": {
+    "$date": "2025-06-10T23:40:20.874Z"
+  },
+  "logoutTime": {
+    "$date": "2025-06-10T23:40:25.578Z"
+  },
+  "timestamp": {
+    "$date": "2025-06-10T23:41:00.052Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6848c4e43671dccb8ac63e1f"
+  },
+  "studentId": "S02",
+  "courseCode": "Dentaftmffdagasa101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Wednesday",
+  "date": "2025-06-11",
+  "status": "Absent",
+  "loginTime": {
+    "$date": "2025-06-10T23:49:52.281Z"
+  },
+  "logoutTime": {
+    "$date": "2025-06-10T23:49:54.256Z"
+  },
+  "timestamp": {
+    "$date": "2025-06-10T23:51:00.030Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6848c700b785b1c36ef04531"
+  },
+  "studentId": "S02",
+  "courseCode": "testt3ban",
+  "courseName": "Intro to TEST Dent",
+  "day": "Wednesday",
+  "date": "2025-06-11",
+  "status": "Absent",
+  "loginTime": {
+    "$date": "2025-06-10T23:58:31.494Z"
+  },
+  "logoutTime": null,
+  "timestamp": {
+    "$date": "2025-06-11T00:00:00.027Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6848c82c2e0fbe7f1530958b"
+  },
+  "studentId": "S02",
+  "courseCode": "testst3ban",
+  "courseName": "Intro to TEST Dent",
+  "day": "Wednesday",
+  "date": "2025-06-11",
+  "status": "Absent",
+  "loginTime": {
+    "$date": "2025-06-11T00:02:49.888Z"
+  },
+  "logoutTime": null,
+  "timestamp": {
+    "$date": "2025-06-11T00:05:00.040Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6848c86864657afa1232477e"
+  },
+  "studentId": "S02",
+  "courseCode": "testst23ban",
+  "courseName": "Intro to TEST Dent",
+  "day": "Wednesday",
+  "date": "2025-06-11",
+  "status": "Absent",
+  "loginTime": {
+    "$date": "2025-06-11T00:03:07.431Z"
+  },
+  "logoutTime": {
+    "$date": "2025-06-11T00:03:09.622Z"
+  },
+  "timestamp": {
+    "$date": "2025-06-11T00:06:00.048Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684b07cc0e9a952bbdab42e9"
+  },
+  "studentId": "S02",
+  "courseCode": "Dentafmasa101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Wednesday",
+  "date": "2025-06-11",
+  "status": "Absent",
+  "loginTime": {
+    "$date": "2025-06-11T00:11:00.181Z"
+  },
+  "logoutTime": null,
+  "timestamp": {
+    "$date": "2025-06-12T17:01:00.064Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "684f4f80df1adcc57cc8c183"
+  },
+  "studentId": "S02",
+  "courseCode": "Dentaas101",
+  "courseName": "Intro to TEST Dent",
+  "day": "Monday",
+  "date": "2025-06-16",
+  "status": "Attended",
+  "loginTime": {
+    "$date": "2025-06-15T22:11:50.074Z"
+  },
+  "logoutTime": null,
+  "timestamp": {
+    "$date": "2025-06-15T22:56:00.033Z"
+  },
+  "__v": 0
+}]
