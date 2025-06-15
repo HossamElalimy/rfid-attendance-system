@@ -13,6 +13,18 @@ const [ongoingLectures, setOngoingLectures] = useState(0);
 const [upcomingToday, setUpcomingToday] = useState(0);
 const [spendingMode, setSpendingMode] = useState("all");
 
+const [attendanceStats, setAttendanceStats] = useState(null);
+
+const fetchAttendanceStats = async () => {
+  try {
+    const res = await axios.get(`http://localhost:5000/api/student/attendance-stats/${user.userId}`);
+    setAttendanceStats(res.data);
+  } catch (err) {
+    console.error("❌ Error fetching attendance stats:", err);
+  }
+};
+
+
 
   const socket = useContext(SocketContext);
   const user = JSON.parse(localStorage.getItem("user"));
@@ -34,6 +46,11 @@ const [spendingMode, setSpendingMode] = useState("all");
       
     }
   };
+
+  useEffect(() => {
+    fetchAttendanceStats();
+  }, []);
+  
   useEffect(() => {
     const interval = setInterval(() => {
       fetchSummary();
@@ -141,12 +158,14 @@ const [spendingMode, setSpendingMode] = useState("all");
   
   if (summary === "error") return <p className="text-danger text-center mt-5">Failed to load student data.</p>;
   if (!summary) return <p className="text-center text-muted mt-5">Loading...</p>;
-  const attended = summary.attendanceSummary?.attended || 0;
-  const absent = summary.attendanceSummary?.absent || 0;
-  const late = summary.attendanceSummary?.late || 0;
+  const attended = attendanceStats?.attendedLectures || 0;
+  const absent = attendanceStats?.absentLectures || 0;
+  const late = attendanceStats?.lateLectures || 0;
+  const total = attendanceStats?.totalLectures || 0;
+  const missed = attendanceStats?.missedLectures || 0;
+  const attendanceRate = attendanceStats?.attendanceRate || 0;
+  const lateRate = attendanceStats?.lateRate || 0;
   
-  const total = summary.totalLectures || 0;
-  const attendanceRate = total > 0 ? Math.round((attended / total) * 100) : 0;
   
 
 
@@ -186,10 +205,11 @@ const [spendingMode, setSpendingMode] = useState("all");
 />
 <StudentStatCard
   title="Lectures Missed / Total"
-  value={`${summary.missedLectures || 0} / ${summary.totalLectures || 0}`}
+  value={`${missed} / ${total}`}
   iconClass="fas fa-percentage"
   textColor="secondary"
 />
+
 
 <StudentStatCard
   title="Attendance Rate"
@@ -197,16 +217,14 @@ const [spendingMode, setSpendingMode] = useState("all");
   iconClass="fas fa-chart-line"
   textColor="info"
 />
+
 <StudentStatCard
   title="Late Rate"
-  value={
-    total > 0
-      ? `${Math.round((late / total) * 100)}%`
-      : "0%"
-  }
+  value={`${lateRate}%`}
   iconClass="fas fa-hourglass-half"
   textColor="warning"
 />
+
 
 
 

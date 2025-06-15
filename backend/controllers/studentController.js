@@ -38,8 +38,13 @@ exports.getStudentSummary = async (req, res) => {
 
     // 🔹 Ended lectures
     const allLectures = await Lecture.find({ students: userId });
-    const attendedLectures = allLectures.filter(l => l.attendance.some(a => a.userId === userId && a.status === "Attended")).length;
-    const absentLectures = allLectures.filter(l => l.attendance.some(a => a.userId === userId && a.status === "Absent")).length;
+
+
+
+
+
+
+
     const endedTodayLectures = await Lecture.find({
       courseCode: { $in: user.studentData?.enrolledCourses || [] },
       status: "ended",
@@ -78,7 +83,9 @@ exports.getStudentSummary = async (req, res) => {
       }
     }
     
+ 
     
+
 
     res.json({
       walletBalance,
@@ -87,8 +94,6 @@ exports.getStudentSummary = async (req, res) => {
       transactionsToday,
       purchasesToday,
       totalCourses,
-      attendedLectures,
-      absentLectures,
       endedToday,
       upcomingToday,
       ongoingLectures,
@@ -96,6 +101,8 @@ exports.getStudentSummary = async (req, res) => {
       deductedAmount,
       timingToday
     });
+    
+    
   } catch (error) {
     console.error("Error in student summary:", error);
     res.status(500).json({ message: "Internal server error" });

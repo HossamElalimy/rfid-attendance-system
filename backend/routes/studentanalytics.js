@@ -40,10 +40,12 @@ const attendanceSummary = {
 };
 
 for (const record of attendanceRecords) {
-  const status = record.status?.trim();
-  if (status === "Attended") attendanceSummary.attended++;
-  else if (status === "Absent") attendanceSummary.absent++;
-  else if (status === "Late") attendanceSummary.late++;
+  const status = record.status?.trim().toLowerCase();
+  console.log(`📌 Found status: ${record.status} → normalized: ${status}`);
+  if (status === "attended") attendanceSummary.attended++;
+  else if (status === "absent") attendanceSummary.absent++;
+  else if (status === "late") attendanceSummary.late++;
+  
   
 }
 
