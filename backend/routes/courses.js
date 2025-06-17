@@ -197,6 +197,24 @@ router.get("/faculties", async (req, res) => {
   }
 });
 
+// Add a new timing to a course by courseCode
+router.put("/add-timing/:courseCode", async (req, res) => {
+  try {
+    const { courseCode } = req.params;
+    const { timing } = req.body; // send { "timing": { ... } }
+
+    const course = await Course.findOne({ courseCode });
+    if (!course) return res.status(404).json({ error: "Course not found" });
+
+    course.timings.push(timing);
+    await course.save();
+
+    res.json({ message: "Timing added", timing });
+  } catch (err) {
+    console.error("Add timing error:", err.message);
+    res.status(500).json({ error: "Failed to add timing" });
+  }
+});
 
 
 
