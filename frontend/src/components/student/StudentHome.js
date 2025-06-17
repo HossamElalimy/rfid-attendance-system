@@ -172,7 +172,7 @@ const fetchAttendanceStats = async () => {
   return (
     <div className="container-fluid">
       <h4 className="mb-4 text-gray-800">Student Dashboard</h4>
-      <div className="row">
+      <div className="row g-4 mb-4">
         <StudentStatCard
           title="My Wallet Balance"
           value={

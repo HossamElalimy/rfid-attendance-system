@@ -5,63 +5,70 @@ const Attendance = require("../models/Attendance");
 
 exports.getTeacherSummary = async (req, res) => {
   const { teacherId } = req.params;
+  console.log("✅ API HIT: getTeacherSummary");
+  console.log("➡️ TeacherID received:", teacherId);
+
   try {
-    // 1. Get courses assigned to this teacher
-    const courses = await Course.find({ teachers: teacherId });
+    const courses = await Course.find({ teachers: { $in: [teacherId] } });
+    console.log("📚 Courses found:", courses.map(c => c.courseCode));
 
     const courseCodes = courses.map(c => c.courseCode);
 
-    // 2. Get students enrolled in these courses
+    // Aggregate unique student IDs
     const studentIds = new Set();
     courses.forEach(course => {
       course.students.forEach(id => studentIds.add(id));
     });
 
-    // 3. Get lectures related to this teacher’s courses
     const lectures = await Lecture.find({ courseCode: { $in: courseCodes } });
 
     const now = new Date();
     const todayName = now.toLocaleDateString("en-US", { weekday: "long" });
 
-    const ongoingLectures = await Course.aggregate([
-      { $match: { teachers: teacherId } },
-      { $unwind: "$timings" },
-      { $match: { "timings.day": todayName } },
-      {
-        $addFields: {
-          start: {
-            $dateFromString: {
-              dateString: {
-                $concat: [
-                  { $dateToString: { format: "%Y-%m-%d", date: now } },
-                  "T",
-                  "$timings.timeStart"
-                ]
+    // ✅ Ongoing Lectures Aggregation
+    let ongoingLectures = [];
+    try {
+      ongoingLectures = await Course.aggregate([
+        { $match: { teachers: { $in: [teacherId] } } },
+        { $unwind: "$timings" },
+        { $match: { "timings.day": todayName } },
+        {
+          $addFields: {
+            start: {
+              $dateFromString: {
+                dateString: {
+                  $concat: [
+                    { $dateToString: { format: "%Y-%m-%d", date: now } },
+                    "T",
+                    "$timings.timeStart"
+                  ]
+                }
               }
-            }
-          },
-          end: {
-            $dateFromString: {
-              dateString: {
-                $concat: [
-                  { $dateToString: { format: "%Y-%m-%d", date: now } },
-                  "T",
-                  "$timings.timeEnd"
-                ]
+            },
+            end: {
+              $dateFromString: {
+                dateString: {
+                  $concat: [
+                    { $dateToString: { format: "%Y-%m-%d", date: now } },
+                    "T",
+                    "$timings.timeEnd"
+                  ]
+                }
               }
             }
           }
+        },
+        {
+          $match: {
+            start: { $lte: now },
+            end: { $gte: now }
+          }
         }
-      },
-      {
-        $match: {
-          start: { $lte: now },
-          end: { $gte: now }
-        }
-      }
-    ]);
+      ]);
+    } catch (aggErr) {
+      console.error("⚠️ Aggregation failed:", aggErr.message);
+    }
 
-    // Today's ended and upcoming
     const startOfDay = new Date(now); startOfDay.setHours(0, 0, 0, 0);
     const endOfDay = new Date(now); endOfDay.setHours(23, 59, 59, 999);
 
@@ -73,7 +80,6 @@ exports.getTeacherSummary = async (req, res) => {
 
     const totalLectures = lectures.length;
 
-    // Course-wise attendance
     const courseSummaries = [];
     for (const course of courses) {
       const attendanceRecords = await Attendance.find({ courseCode: course.courseCode });
@@ -83,7 +89,7 @@ exports.getTeacherSummary = async (req, res) => {
       const absent = attendanceRecords.filter(a => a.status === "Absent").length;
       const total = attended + late + absent;
 
-      const calcRate = (num) => (total ? ((num / total) * 100).toFixed(1) : 0);
+      const calcRate = (num) => (total ? ((num / total) * 100).toFixed(1) : "0.0");
 
       courseSummaries.push({
         courseCode: course.courseCode,

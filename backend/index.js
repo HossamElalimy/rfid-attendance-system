@@ -74,6 +74,8 @@ const teacherRoutes = require("./routes/teacher");
 app.use("/api/teacher", teacherRoutes);
 
 
+const teacherAnalyticsRoutes = require("./routes/teacheranalytics");
+app.use("/api/teacher/analytics", teacherAnalyticsRoutes);
 
 
 

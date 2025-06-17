@@ -48,8 +48,13 @@ exports.submitAttendance = async (req, res) => {
 
     await Attendance.insertMany(entries);
 
+    // ✅ Emit live update
+    const io = req.app.get("io");
+    io.emit("attendance-updated", timingId); // matching frontend listener
+
     res.json({ message: "Attendance submitted successfully." });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+

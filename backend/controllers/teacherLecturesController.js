@@ -43,3 +43,19 @@ exports.getLiveTeacherLectures = async (req, res) => {
     res.status(500).json({ error: "Failed to load teacher lectures" });
   }
 };
+
+exports.getTeacherCourses = async (req, res) => {
+  try {
+    const { teacherId } = req.params;
+
+    const courses = await Course.find({
+      teachers: teacherId
+    }).select("courseCode courseName");
+
+    res.json(courses);
+  } catch (err) {
+    console.error("Error fetching teacher courses:", err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+

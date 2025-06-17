@@ -1,21 +1,19 @@
 import React from "react";
 
-const StudentStatCard = ({ title, value, iconClass, textColor }) => {
+const StudentStatCard = ({ title, value, iconClass, textColor, cardClass = "" }) => {
   return (
-    <div className="col-xl-3 col-md-6 mb-4">
-      <div className="card shadow h-100 py-2">
+    <div className={`col-lg-3 col-md-4 col-sm-6 col-12`}>
+      <div className={`card shadow-sm hover-stat-card ${cardClass}`}>
         <div className="card-body">
-          <div className="row no-gutters align-items-center">
-            <div className="col mr-2">
-              <div className={`text-xs font-weight-bold text-${textColor} text-uppercase mb-1`}>
-                {title}
-              </div>
-              <div className="h5 mb-0 font-weight-bold text-gray-800">{value}</div>
+          <div className="d-flex justify-content-between align-items-center">
+            <div className={`text-${textColor} text-uppercase fw-bold small mb-1`}>
+              {title}
             </div>
-            <div className="col-auto">
-              <i className={`${iconClass} fa-2x text-gray-300`}></i>
+            <div className="icon">
+              <i className={`${iconClass} fa-lg text-muted`} />
             </div>
           </div>
+          <div className="h5 mb-0 fw-bold text-gray-800">{value}</div>
         </div>
       </div>
     </div>
