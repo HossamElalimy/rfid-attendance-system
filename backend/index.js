@@ -70,6 +70,10 @@ app.use("/api/merchants", merchantRoutes);
 const visaRoutes = require("./routes/visa");
 app.use("/api/visa", visaRoutes);
 
+const teacherRoutes = require("./routes/teacher");
+app.use("/api/teacher", teacherRoutes);
+
+
 
 
 
