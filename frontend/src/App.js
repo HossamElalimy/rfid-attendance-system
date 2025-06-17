@@ -21,6 +21,9 @@ import StudentLectures from "./components/student/StudentLectures";
 import StudentHome from "./components/student/StudentHome";
 import StudentPayments from "./components/student/StudentPayment";
 import StudentWallet from "./components/student/StudentWallet";
+import TeacherLayout from "./components/teacher/TeacherLayout";
+import TeacherHome from "./components/teacher/TeacherHome";
+import TeacherLectures from "./components/teacher/TeacherLectures"; 
 
 
 function App() {
@@ -52,6 +55,12 @@ function App() {
     <Route path="payments" element={<StudentPayments />} />
 
   </Route>
+
+  <Route path="/teacher" element={<TeacherLayout />}>
+  <Route path="home" element={<TeacherHome />} />
+  <Route path="lectures" element={<TeacherLectures />} />
+</Route>
+
       </Routes>
       <ToastContainer position="bottom-right" autoClose={2000} hideProgressBar />
     </Router>

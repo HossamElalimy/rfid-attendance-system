@@ -2,11 +2,29 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useContext } from "react";
 import SocketContext from "../../contexts/SocketContext";
+import FundWalletModal from "./FundWalletModal";
+import { Button } from "react-bootstrap";
 
 const StudentWallet = () => {
   const [transactions, setTransactions] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
   const [filter, setFilter] = useState("");
+  const [showFundModal, setShowFundModal] = useState(false);
+  const [walletId, setWalletId] = useState(null); 
+  useEffect(() => {
+    const fetchWalletId = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/api/wallet/${user._id}`); // or user.userId if your route uses that
+        setWalletId(res.data.walletID);
+      } catch (err) {
+        console.error("❌ Failed to fetch wallet ID:", err);
+      }
+    };
+  
+    fetchWalletId();
+  }, []);
+  
+  // You must fetch this if not already available
 
   const [dateRange, setDateRange] = useState("");
 const now = new Date();
@@ -39,11 +57,14 @@ const finalTransactions = dateFiltered.filter(tx => !filter || tx.action === fil
 
   useEffect(() => {
     const fetchTransactions = async () => {
+      if (!user?.userId) return; // 🛑 wait until userId is ready
+      console.log("Fetching transactions for:", user.userId); // ✅ debug
       try {
         const res = await axios.get(`http://localhost:5000/api/transactions/user/${user.userId}`);
+        console.log("✅ Transactions received:", res.data);
         setTransactions(res.data);
       } catch (err) {
-        console.error("Failed to load wallet transactions", err);
+        console.error("❌ Failed to load wallet transactions", err);
       }
     };
   
@@ -58,7 +79,8 @@ const finalTransactions = dateFiltered.filter(tx => !filter || tx.action === fil
         socket.off("new-transaction", fetchTransactions);
       }
     };
-  }, [socket, user.userId]);
+  }, [socket, user?.userId]); // ✅ include user.userId here
+  
   
 
   return (
@@ -66,6 +88,26 @@ const finalTransactions = dateFiltered.filter(tx => !filter || tx.action === fil
     <div className="container mt-4">
         
       <h2>My Wallet Transactions</h2>
+      <div className="d-flex justify-content-end mb-3">
+  <Button variant="outline-success" onClick={() => setShowFundModal(true)}>
+    💳 Fund Wallet
+  </Button>
+</div>
+<FundWalletModal
+  show={showFundModal}
+  onHide={() => setShowFundModal(false)}
+  walletId={walletId}
+  onFundSuccess={async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/transactions/user/${user.userId}`);
+      setTransactions(res.data);
+    } catch (err) {
+      console.error("❌ Refetch after funding failed", err);
+    }
+  }}
+/>
+
+
       <select className="form-select mb-3" onChange={(e) => setFilter(e.target.value)}>
   <option value="">All</option>
   <option value="add">Add</option>

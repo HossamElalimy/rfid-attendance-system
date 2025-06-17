@@ -2,9 +2,13 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import SocketContext from "../../contexts/SocketContext"; // Make sure this is provided in App
 
+
+
 const StudentPayments = () => {
   const [merchants, setMerchants] = useState([]);
   const socket = useContext(SocketContext);
+
+
 
   const fetchMerchants = async () => {
     try {

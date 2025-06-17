@@ -3,6 +3,8 @@ const router = express.Router();
 const Transaction = require("../models/Transaction");
 const Wallet = require("../models/Wallet"); // make sure Wallet model exists
 const { io } = require("../socket"); // ✅ keep as-is, but call it when needed
+const User = require("../models/User");
+
 
 
 router.get("/", async (req, res) => {
@@ -143,13 +145,36 @@ router.post("/", async (req, res) => {
     }
   });
   
-  router.get("/user/:userId", async (req, res) => {
-    try {
-      const transactions = await Transaction.find({ userId: req.params.userId }).sort({ timestamp: -1 });
-      res.json(transactions);
-    } catch (err) {
-      res.status(500).json({ error: "Failed to fetch transactions" });
+router.get("/user/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    console.log("🔍 Fetching wallet transactions for:", userId);
+
+    // 1. Find user using `userId` field (e.g., "S02")
+    const user = await User.findOne({ userId: userId });
+    if (!user) {
+      console.error("❌ User not found for userId:", userId);
+      return res.status(404).json({ error: "User not found" });
     }
-  });
+
+    // 2. Find wallet using user's _id (stored in Wallet.userID)
+    const wallet = await Wallet.findOne({ userID: user._id });
+    if (!wallet) {
+      console.error("❌ Wallet not found for user _id:", user._id);
+      return res.status(404).json({ error: "Wallet not found" });
+    }
+
+    // 3. Find all transactions for this wallet
+    const transactions = await Transaction.find({ walletID: wallet.walletID }).sort({ timestamp: -1 });
+
+    console.log(`✅ Found ${transactions.length} transactions for wallet ${wallet.walletID}`);
+    res.json(transactions);
+  } catch (err) {
+    console.error("💥 Internal error fetching user transactions:", err);
+    res.status(500).json({ error: "Failed to fetch transactions" });
+  }
+});
+
+  
   
 module.exports = router;

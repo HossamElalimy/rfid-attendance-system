@@ -66,6 +66,13 @@ const merchantRoutes = require("./routes/merchants");
 app.use("/api/merchants", merchantRoutes);
 
 
+
+const visaRoutes = require("./routes/visa");
+app.use("/api/visa", visaRoutes);
+
+
+
+
 app.get("/", (req, res) => {
   res.send("RFID Server Running 🚀");
 });

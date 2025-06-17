@@ -3,6 +3,7 @@ const router = express.Router();
 const Wallet = require("../models/Wallet");
 const User = require("../models/User");
 const Transaction = require("../models/Transaction");
+const Visa = require("../models/Visa");
 
 // 🔹 Get total balance across all wallets
 router.get("/total", async (req, res) => {
@@ -80,9 +81,15 @@ io.emit("walletUpdated", {
   userID: wallet.userID,
   balance: wallet.balance,
   amount: numericAmount,
-  action,
-  timestamp: txData.timestamp,
+  action: "add",
+  timestamp: tx.timestamp,
 });
+
+io.emit("new-transaction", {
+  walletID: wallet.walletID,
+  transaction: tx
+});
+
 
     
 
@@ -140,5 +147,73 @@ router.post("/create", async (req, res) => {
     res.status(500).json({ error: "Error creating wallet" });
   }
 });
+
+router.post("/fund", async (req, res) => {
+  const { visaNo, expiryDate, cvv, balance, walletId } = req.body;
+
+  if (!visaNo || !expiryDate || !cvv || !balance || !walletId) {
+    return res.status(400).json({ message: "Missing required data" });
+  }
+
+  try {
+    const visa = await Visa.findOne({ visaNo, expiryDate, cvv });
+    if (!visa) return res.status(404).json({ message: "Visa not found or invalid" });
+
+    if (visa.balance < balance) {
+      return res.status(400).json({ message: "Insufficient Visa balance" });
+    }
+
+    // Deduct from Visa
+    visa.balance -= balance;
+    await visa.save();
+
+    // Add to Wallet
+    const wallet = await Wallet.findOne({ walletID: walletId });
+    if (!wallet) return res.status(404).json({ message: "Wallet not found" });
+
+    wallet.balance += balance;
+    await wallet.save();
+
+    // ✅ Get userId (e.g., S02)
+    const user = await User.findById(wallet.userID); // ✅ get full user info
+
+    const tx = new Transaction({
+      transactionId: `TX${Date.now()}`,
+      userId: user.userId, // ✅ ADD THIS LINE
+      amount: balance,
+      action: "add",
+      walletID: wallet.walletID,
+      balanceAfter: wallet.balance,
+      timestamp: new Date()
+    });
+    
+    await tx.save();
+
+    // Emit real-time updates
+    const io = req.app.get("io");
+    io.emit("walletUpdated", {
+      walletID: wallet.walletID,
+      userID: wallet.userID,
+      balance: wallet.balance,
+      amount: balance,
+      action: "add",
+      timestamp: tx.timestamp,
+    });
+
+    io.emit("new-transaction", {
+      walletID: wallet.walletID,
+      transaction: tx
+    });
+
+    res.json({ message: `Wallet funded with ${balance} EGP successfully.` });
+
+  } catch (err) {
+    console.error("💳 Fund Wallet Error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+
 
 module.exports = router;

@@ -63,50 +63,53 @@ const selectedDay = selectedDate.toLocaleDateString("en-US", { weekday: "long" }
        }
      }
      else if (status === "Ended") {
-        const final = await Attendance.findOne({
+      const final = await Attendance.findOne({
+        studentId,
+        courseCode: course.courseCode,
+        date: todayDateStr
+      });
+    
+      if (final) {
+        // ✅ Use finalized status without override
+        myAttendance = final.status;
+        myLogIn = final.loginTime || null;
+        myLogOut = final.logoutTime || null;
+      } else {
+        // 🆘 No finalized record — try fallback
+        const session = await CurrentlyAttending.findOne({
           studentId,
           courseCode: course.courseCode,
-          date: todayDateStr,
-          startTime: timing.timeStart,
-          endTime: timing.timeEnd
+          timingId: timing._id.toString(),
+          date: todayDateStr
         });
-      
-        if (final) {
-          myLogIn = final.loginTime || null;
-          myLogOut = final.logoutTime || null;
-          myAttendance = final.status || "Absent";
-          console.log("🔍 lecture data", course.courseCode, myLogIn, myLogOut);
-
-
-      
-          // 🛑 But if status is "Absent" and login/logout are null — try backup
-          if (myAttendance === "Absent" && (!myLogIn || !myLogOut)) {
-            const backup = await CurrentlyAttending.findOne({
-              studentId,
-              courseCode: course.courseCode,
-              timingId: timing._id.toString(),
-              date: todayDateStr
-            });
-      
-            if (backup) {
-              myLogIn = backup.loginTime || null;
-              myLogOut = backup.logoutTime || null;
+    
+        if (session) {
+          myLogIn = session.loginTime || null;
+          myLogOut = session.logoutTime || null;
+    
+          if (myLogIn) {
+            // Estimate status based on presence of login and logout
+            const login = new Date(myLogIn);
+            const logout = myLogOut ? new Date(myLogOut) : null;
+            const lateThreshold = new Date(startDateTime.getTime() + 15 * 60000); // 15 minutes after start
+            const earlyLeaveThreshold = new Date(endDateTime.getTime() - 15 * 60000); // 15 minutes before end
+    
+            if (login > lateThreshold) {
+              myAttendance = "Late";
+            } else if (logout && logout < earlyLeaveThreshold) {
+              myAttendance = "Absent"; // left too early
+            } else {
+              myAttendance = "Attended"; // treated as attended
             }
+          } else {
+            myAttendance = "Absent"; // never logged in
           }
         } else {
-          // No attendance record, fallback to backup directly
-          const backup = await CurrentlyAttending.findOne({
-            studentId,
-            courseCode: course.courseCode,
-            timingId: timing._id.toString(),
-            date: todayDateStr
-          });
-      
-          myLogIn = backup?.loginTime || null;
-          myLogOut = backup?.logoutTime || null;
-          myAttendance = "Absent";
+          myAttendance = "Absent"; // No record in either collection
         }
       }
+    }
+    
       
       
      

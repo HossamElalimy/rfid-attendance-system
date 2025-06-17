@@ -38,8 +38,10 @@ const Login = () => {
       }
       else if (finalUser.role === "student") {
         navigate("/student/home"); // <-- Add this for students
-       } else {
-        navigate("/dashboard");
+       } else if (finalUser.role === "teacher") {
+        navigate("/teacher/home");
+      } else {
+        navigate("/dashboard"); // fallback for unknown roles
       }
     } catch (err) {
       if (err.response?.status === 403) {
