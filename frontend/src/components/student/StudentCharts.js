@@ -11,13 +11,16 @@ import SocketContext from "../../contexts/SocketContext";
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
-const StudentCharts = () => {
+const StudentCharts = ({ studentId: propStudentId }) => {
+
   const [itemSpending, setItemSpending] = useState({});
   const [itemFilter, setItemFilter] = useState("all");
   const [selectedItemDate, setSelectedItemDate] = useState(new Date());
   
 
   const user = JSON.parse(localStorage.getItem("user"));
+  const studentId = propStudentId || user?.userId;
+  
   const socket = useContext(SocketContext);
 
   const [data, setData] = useState(null);
@@ -25,12 +28,26 @@ const StudentCharts = () => {
   const [view, setView] = useState("byMonth");
   const [customDate, setCustomDate] = useState(null);
 
+  const [spendingData, setSpendingData] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
+
+  const fetchData = async () => {
+    const res = await axios.get(`http://localhost:5000/api/studentanalytics/spending/${studentId}?mode=all`);
+    setSpendingData(res.data.spendingOverTime);
+    setCategoryData(res.data.spendingByCategory);
+  };
+
+  useEffect(() => {
+    if (studentId) fetchData();
+  }, [studentId]);
+
   const fetchAnalytics = async () => {
     if (!user?.userId) return;
     const [summary, spend] = await Promise.all([
-      axios.get(`http://localhost:5000/api/studentanalytics/${user.userId}`),
-      axios.get(`http://localhost:5000/api/studentanalytics/spending/${user.userId}`)
+      axios.get(`http://localhost:5000/api/studentanalytics/${studentId}`),
+      axios.get(`http://localhost:5000/api/studentanalytics/spending/${studentId}`)
     ]);
+    
     setData(summary.data);
     setSpending(spend.data);
   };
@@ -46,7 +63,8 @@ const StudentCharts = () => {
     if (!socket) return;
 
     socket.on("new-transaction", (tx) => {
-      if (tx.userId === user.userId) {
+      if (tx.userId === studentId)
+        {
         console.log("📢 Real-time transaction detected. Updating charts...");
         fetchAnalytics();
       }
@@ -59,7 +77,8 @@ const StudentCharts = () => {
     const fetchItemSpending = async () => {
       if (!user?.userId) return;
   
-      let url = `http://localhost:5000/api/studentanalytics/spending/${user.userId}`;
+      let url = `http://localhost:5000/api/studentanalytics/spending/${studentId}`;
+
       const d = new Date(selectedItemDate);
   
       if (itemFilter === "day") {

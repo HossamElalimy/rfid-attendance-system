@@ -335,7 +335,8 @@ const socket = useContext(SocketContext);
       }
 
       try {
-        const existingUser = await axios.get("http://localhost:5000/api/users");
+        const existingUser = await axios.get("http://localhost:5000/api/users/search");
+
         const isUsernameTaken = existingUser.data.some(
           (user) => user.username === createForm.username
         );

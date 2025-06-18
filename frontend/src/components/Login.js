@@ -40,6 +40,8 @@ const Login = () => {
         navigate("/student/home"); // <-- Add this for students
        } else if (finalUser.role === "teacher") {
         navigate("/teacher/home");
+      }else if (finalUser.role === "parent") {
+        navigate("/parent/home");
       } else {
         navigate("/dashboard"); // fallback for unknown roles
       }

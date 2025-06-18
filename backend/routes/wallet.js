@@ -81,13 +81,13 @@ io.emit("walletUpdated", {
   userID: wallet.userID,
   balance: wallet.balance,
   amount: numericAmount,
-  action: "add",
-  timestamp: tx.timestamp,
+  action: action,
+  timestamp: transaction.timestamp,
 });
 
 io.emit("new-transaction", {
   walletID: wallet.walletID,
-  transaction: tx
+  transaction: transaction
 });
 
 

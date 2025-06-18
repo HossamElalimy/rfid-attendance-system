@@ -83,6 +83,13 @@ app.get("/", (req, res) => {
   res.send("RFID Server Running 🚀");
 });
 
+const parentRoutes = require("./routes/parent");
+app.use("/api/parent", parentRoutes);
+
+const mlRoutes = require("./routes/ml");
+app.use("/api/ml", mlRoutes);
+
+
 // MongoDB connect and cron job
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {

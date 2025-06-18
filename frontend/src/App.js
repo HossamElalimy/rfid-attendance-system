@@ -24,6 +24,12 @@ import StudentWallet from "./components/student/StudentWallet";
 import TeacherLayout from "./components/teacher/TeacherLayout";
 import TeacherHome from "./components/teacher/TeacherHome";
 import TeacherLectures from "./components/teacher/TeacherLectures"; 
+import ParentHome from "./components/parent/ParentHome";
+import ParentLayout from "./components/parent/ParentLayout";
+import ParentAttendancePage from "./components/parent/ParentAttendancePage";
+import ParentTransactionsPage from "./components/parent/ParentTransactionsPage";
+import FundWalletPage from "./components/parent/FundWalletPage";
+import ParentStudentPredictions from "./components/parent/ParentStudentPredictions";
 
 
 function App() {
@@ -60,6 +66,13 @@ function App() {
   <Route path="home" element={<TeacherHome />} />
   <Route path="lectures" element={<TeacherLectures />} />
 </Route>
+<Route path="/parent" element={<ParentLayout />}>
+  <Route path="home" element={<ParentHome />} />
+  <Route path="fund-wallet" element={<FundWalletPage />} />
+</Route>
+<Route path="/parent/attendance/:studentId/:studentName" element={<ParentAttendancePage />} />
+<Route path="/parent/transactions/:studentId/:studentName" element={<ParentTransactionsPage />} />
+<Route path="/parent/predictions" element={<ParentStudentPredictions />} />
 
       </Routes>
       <ToastContainer position="bottom-right" autoClose={2000} hideProgressBar />

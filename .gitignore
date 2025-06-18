@@ -12,6 +12,12 @@
 !/backend/package.json
 !/backend/package-lock.json
 !/rfidCampus.attendances.json
+!/rfidCampus.transactions.csv
+!/rfidCampus.attendances.csv
+!/ml-model
+
+
+
 
 # Still ignore node_modules inside frontend/backend
 backend/node_modules/
